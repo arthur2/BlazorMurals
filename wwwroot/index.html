@@ -27,13 +27,13 @@
                         .catch(() => applyTheme('light'));
                 }
             } catch (e) {
-                applyTheme('light');
+                applyTheme('dark');
             }
         })();
     </script>
 
-    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/app.css" />
+    <link rel="stylesheet" href="./lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./css/app.css" />
 </head>
 
 <body>
@@ -45,8 +45,8 @@
         <span class="dismiss">🗙</span>
     </div>
 
-    <script src="js/site.js"></script>
-    <script src="_framework/blazor.webassembly#[.{fingerprint}].js"></script>
+    <script src="./js/site.js"></script>
+    <script src="./_framework/blazor.webassembly#[.{fingerprint}].js"></script>
 </body>
 
 </html>

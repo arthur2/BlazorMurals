@@ -47,14 +47,21 @@ section p {
 
 /* reveal animation */
 .revealable {
-  opacity:0;
+  opacity:1;
   transform:translateY(12px);
   transition:opacity .45s ease, transform .45s ease;
 }
 .revealable.revealed { opacity:1; transform:none; }
 
 /* artist bio */
-.artist-bio { display:grid; grid-template-columns:160px 1fr; gap:1rem; align-items:center; margin:2rem 0; }
+.artist-info {margin-left:2rem;}
+.artist-bio {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 1rem;
+    align-items: center;
+    margin: 2rem 0;
+}
 .artist-photo { width:160px; height:160px; border-radius:50%; object-fit:cover; display:block; }
 
 /* socials */
@@ -82,7 +89,7 @@ section p {
   opacity: 0.60;
 
   /* slow zoom on hover and slow opacity transition (4s) */
-  transition: transform 3s ease-in-out, opacity 3s ease-in-out;
+  transition: transform 3s ease-in-out, opacity 1.5s ease-in-out;
   will-change: transform, opacity;
 }
 

@@ -11,9 +11,10 @@
   <!-- Artist bio -->
   <section id="artist" class="artist-bio revealable">
     <img class="artist-photo" src="@ArtistInfo?.ArtistPhotoPath" alt="Artist photo" />
-    <div>
+    <div class="artist-info">
       <h2>@ArtistInfo?.ArtistName</h2>
-      <p class="lead">@ArtistInfo?.ArtistBio</p>
+      <p class="lead">@((MarkupString)(ArtistInfo?.ArtistBio ?? ""))</p>
+      
       @if(false)
       {
         <div class="social-links">
