@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<!-- https://go.microsoft.com/fwlink/?LinkID=208121. -->
-<Project>
-  <PropertyGroup>
-    <_PublishTargetUrl>C:\Users\arthu\source\repos\BlazorMurals\bin\Release\net10.0\browser-wasm\publish\</_PublishTargetUrl>
-    <History>True|2026-01-18T18:29:55.4855765Z||;</History>
-    <LastFailureDetails />
-  </PropertyGroup>
-</Project>
