@@ -1,30 +1,29 @@
 ﻿@using BlazorMurals.Shared.Models
+@using Microsoft.AspNetCore.Components.Web
 
 @if (Visible && Album is not null && Album.Images?.Count > 0)
 {
     <div class="carousel-overlay" @onkeydown="HandleKey" tabindex="0" @ref="overlayRef">
         <div class="carousel-container">
-            <button class="carousel-close btn-close" title="Close" @onclick="Close" aria-label="Close carousel"></button>
-
-            <div class="carousel-stage">
-                <button class="carousel-control prev" @onclick="Previous" aria-label="Previous image">‹</button>
-
-                <div class="carousel-image-wrapper">
-                    <img src="@CurrentImage" class="carousel-image" alt="@Album.Title" />
-                    <div class="carousel-caption">
-                        <div class="carousel-title">@Album.Title</div>
-                        <div class="carousel-index">@($"{CurrentIndex + 1} / {Album.Images.Count}")</div>
-                    </div>
-                </div>
-
-                <button class="carousel-control next" @onclick="Next" aria-label="Next image">›</button>
+            <div class="d-flex justify-content-end mb-2">
+                <button class="btn btn-close btn-close-white" @onclick="Close" aria-label="Close"></button>
             </div>
 
-            <div class="carousel-thumbs mt-3">
+            <div class="carousel-stage">
+                <button class="carousel-control" @onclick="Previous" aria-label="Previous">‹</button>
+
+                <div class="flex-grow-1 text-center">
+                    <img src="@CurrentImage" alt="@Album.Title" class="carousel-image" />
+                    <div class="mt-2 text-muted small">@($"{CurrentIndex + 1} / {Album.Images.Count}")</div>
+                </div>
+
+                <button class="carousel-control" @onclick="Next" aria-label="Next">›</button>
+            </div>
+
+            <div class="carousel-thumbs">
                 @for (int i = 0; i < Album.Images.Count; i++)
                 {
-                    var img = Album.Images[i];
-                    <img src="@img" class="thumb @(i == CurrentIndex ? "active" : "")" @onclick="@(()=>GoTo(i))" alt="@($"Thumbnail {i+1}")" />
+                    <img src="@Album.Images[i]" class="@(i == CurrentIndex ? "active" : "")" @onclick="() => GoTo(i)" alt="@($"thumb {i + 1}")" />
                 }
             </div>
         </div>
@@ -38,55 +37,55 @@
 
     private int CurrentIndex { get; set; }
     private ElementReference overlayRef;
+    private bool focusPending;
 
     private string CurrentImage => Album?.Images?[CurrentIndex] ?? string.Empty;
 
-    protected override async Task OnParametersSetAsync()
+    protected override Task OnParametersSetAsync()
     {
-        if (Visible && Album is not null)
+        if (Visible && Album is not null && Album.Images?.Count > 0)
         {
             CurrentIndex = 0;
-            // ensure overlay receives keyboard focus
-            await Task.Yield();
-            _ = overlayRef.FocusAsync();
+            focusPending = true;
         }
+        return Task.CompletedTask;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (focusPending && Visible)
+        {
+            focusPending = false;
+            try { await overlayRef.FocusAsync(); } catch { }
+        }
+        await base.OnAfterRenderAsync(firstRender);
     }
 
     private Task Close() => OnClose.InvokeAsync();
 
     private void Previous()
     {
-        if (Album == null || Album.Images.Count == 0) return;
+        if (Album == null) return;
         CurrentIndex = (CurrentIndex - 1 + Album.Images.Count) % Album.Images.Count;
     }
 
     private void Next()
     {
-        if (Album == null || Album.Images.Count == 0) return;
+        if (Album == null) return;
         CurrentIndex = (CurrentIndex + 1) % Album.Images.Count;
     }
 
-    private void GoTo(int index)
+    private void GoTo(int idx)
     {
         if (Album == null) return;
-        CurrentIndex = Math.Clamp(index, 0, Album.Images.Count - 1);
+        CurrentIndex = Math.Clamp(idx, 0, Album.Images.Count - 1);
     }
 
     private async Task HandleKey(KeyboardEventArgs e)
     {
         if (!Visible) return;
-
-        switch (e.Key)
-        {
-            case "ArrowLeft":
-                Previous();
-                break;
-            case "ArrowRight":
-                Next();
-                break;
-            case "Escape":
-                await Close();
-                break;
-        }
+        if (e.Key == "ArrowLeft") Previous();
+        if (e.Key == "ArrowRight") Next();
+        if (e.Key == "Escape") await Close();
     }
 }

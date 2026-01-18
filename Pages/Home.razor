@@ -1,13 +1,13 @@
 ﻿@page "/"
-@using BlazorMurals.Shared
 @using BlazorMurals.Shared.Models
 @inject IJSRuntime JS
+@inject NavigationManager NavigationManager
 
 <PageTitle>Home</PageTitle>
 
-<div class="container py-5">
+<div id="home" class="container py-5 revealable">
     <!-- Artist Bio -->
-    <section class="artist-bio mb-5">
+    <section id="artist" class="artist-bio mb-5">
         <div class="row align-items-center g-4">
             <div class="col-12 col-md-4 text-center">
                 <img src="https://picsum.photos/seed/artist/400/400" alt="Artist photo" class="rounded-circle img-fluid artist-photo" />
@@ -38,7 +38,7 @@
     </section>
 
     <!-- Album gallery on homepage -->
-    <section class="album-gallery">
+    <section id="gallery" class="album-gallery revealable">
         <h3 class="mb-3">Featured Albums</h3>
 
         <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 g-3 gallery-grid">
@@ -61,6 +61,38 @@
             }
         </div>
     </section>
+
+    <!-- Contact section -->
+    <section id="contact" class="contact-section mt-5 revealable">
+        <h3>Contact Us</h3>
+        <p>If you'd like to commission or inquire, reach out using the form or by email below.</p>
+
+        <div class="row">
+            <div class="col-md-6">
+                <form onsubmit="return false;">
+                    <div class="mb-3">
+                        <label class="form-label">Name</label>
+                        <input class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Message</label>
+                        <textarea class="form-control" rows="5"></textarea>
+                    </div>
+                    <button class="btn btn-primary" type="button">Send</button>
+                </form>
+            </div>
+
+            <div class="col-md-6">
+                <h6>Contact</h6>
+                <p><strong>Email:</strong> artist@example.com</p>
+                <p><strong>Phone:</strong> (555) 123-4567</p>
+            </div>
+        </div>
+    </section>
 </div>
 
 <AlbumCarousel Album="SelectedAlbum" Visible="ShowCarousel" OnClose="CloseCarousel" />
@@ -74,10 +106,9 @@
     {
         Albums = new List<Album>
         {
-            new Album { Id = "a1", Title = "Vibrant Murals", CoverUrl = "https://picsum.photos/seed/mural1/600/400", Images = new List<string>{ "https://picsum.photos/seed/mural1-1/1200/800" } },
-            new Album { Id = "a2", Title = "Street Pieces", CoverUrl = "https://picsum.photos/seed/street1/600/400", Images = new List<string>{ "https://picsum.photos/seed/street1-1/1200/800" } },
-            new Album { Id = "a3", Title = "Abstract Walls", CoverUrl = "https://picsum.photos/seed/abstract1/600/400", Images = new List<string>{ "https://picsum.photos/seed/abstract1-1/1200/800" } },
-            new Album { Id = "a4", Title = "Color Blocks", CoverUrl = "https://picsum.photos/seed/color1/600/400", Images = new List<string>{ "https://picsum.photos/seed/color1-1/1200/800" } }
+            new Album { Id = "a1", Title = "Vibrant Murals", CoverUrl = "https://picsum.photos/seed/mural1/600/400", Images = new List<string>{ "https://picsum.photos/seed/mural1-1/1200/800", "https://picsum.photos/seed/mural1-2/1200/800" } },
+            new Album { Id = "a2", Title = "Street Pieces", CoverUrl = "https://picsum.photos/seed/street1/600/400", Images = new List<string>{ "https://picsum.photos/seed/street1-1/1200/800", "https://picsum.photos/seed/street1-2/1200/800" } },
+            new Album { Id = "a3", Title = "Abstract Walls", CoverUrl = "https://picsum.photos/seed/abstract1/600/400", Images = new List<string>{ "https://picsum.photos/seed/abstract1-1/1200/800", "https://picsum.photos/seed/abstract1-2/1200/800" } }
         };
     }
 
@@ -85,9 +116,6 @@
     {
         SelectedAlbum = album;
         ShowCarousel = true;
-
-        await JS.InvokeVoidAsync("console.log", $"OpenAlbum invoked: {album.Id} - ShowCarousel={ShowCarousel}");
-
         await InvokeAsync(StateHasChanged);
     }
 
@@ -104,5 +132,25 @@
         {
             await OpenAlbum(album);
         }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // If the URL contains a fragment (e.g. /#gallery), scroll to it after load
+            var uri = new Uri(NavigationManager.Uri);
+            if (!string.IsNullOrEmpty(uri.Fragment))
+            {
+                var id = uri.Fragment.TrimStart('#');
+                // fixed: use 'site' (matches wwwroot/js/site.js)
+                await JS.InvokeVoidAsync("site.scrollToId", id);
+            }
+
+            // initialize reveal observer - use 'site'
+            await JS.InvokeVoidAsync("site.initRevealObserver");
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
     }
 }

@@ -1,0 +1,27 @@
+﻿@using BlazorMurals.Shared.Models
+@using Microsoft.AspNetCore.Components.Web
+
+<div class="gallery-grid">
+    @foreach (var album in Albums)
+    {
+        <div class="album-card" role="button" tabindex="0" @onclick="() => Select(album)" @onkeydown="(e => OnKey(e, album))" aria-label="@($"Open album {album.Title}")">
+            <img src="@album.CoverUrl" alt="@album.Title" class="album-cover" loading="lazy" />
+            <div class="p-2">
+                <div class="fw-semibold text-truncate">@album.Title</div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter, EditorRequired] public IEnumerable<Album> Albums { get; set; } = Enumerable.Empty<Album>();
+    [Parameter] public EventCallback<Album> OnAlbumSelected { get; set; }
+
+    private Task Select(Album a) => OnAlbumSelected.InvokeAsync(a);
+
+    private async Task OnKey(KeyboardEventArgs e, Album a)
+    {
+        if (e is null) return;
+        if (e.Key == "Enter" || e.Key == " ") await Select(a);
+    }
+}

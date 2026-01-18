@@ -1,156 +1,170 @@
 :root {
-    /* Light theme defaults */
-    --bg-color: #ffffff;
-    --text-color: #111827;
-    --link-color: #0071c1;
-    --secondary-color: #6c757d;
-    --navbar-text-color: #ffffff;
+    --bg: #ffffff;
+    --text: #111827;
+    --accent: #1b6ec2;
+    --secondary: #6c757d;
+    --nav-bg: #6c757d;
+    --nav-text: #ffffff;
+
+    --social-color: var(--secondary);
+    --card-bg: #ffffff;
+    --overlay-bg: rgba(0,0,0,0.75);
 }
 
-/* Dark theme overrides */
+/* dark theme */
 .theme-dark {
-    --bg-color: #0b1220;
-    --text-color: #e6eef7;
-    --link-color: #7fb3ff;
-    --secondary-color: #343a40;
-    --navbar-text-color: #ffffff;
+    --bg: #071021;
+    --text: #e6eef7;
+    --accent: #66a8ff;
+    --secondary: #343a40;
+    --nav-bg: #343a40;
+    --nav-text: #ffffff;
+
+    --social-color: var(--secondary);
+    --card-bg: #0f1720;
+    --overlay-bg: rgba(0,0,0,0.8);
 }
 
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
+    height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    scroll-behavior: smooth;
 }
 
-/* ---- Navbar: uniform, theme-aware styles ---- */
+/* top floating navbar */
 .top-navbar {
-    position: fixed;
+    position: sticky;
     top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1040;
-    background-color: var(--secondary-color) !important;
-    color: var(--navbar-text-color) !important;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-    min-height: 56px;
+    z-index: 1100;
+    background: var(--nav-bg);
+    color: var(--nav-text);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    padding: 0.5rem 1rem;
 }
 
-/* Brand */
-.top-navbar .navbar-brand {
-    color: var(--navbar-text-color) !important;
-    font-weight: 600;
-    letter-spacing: 0.2px;
-    margin-right: 0.5rem;
-}
-
-/* Toggler: use inline SVG and inherit color */
-.top-navbar .navbar-toggler {
-    border: none;
-    color: var(--navbar-text-color);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.25rem 0.5rem;
-}
-
-.top-navbar .navbar-toggler .toggler-icon {
-    display: block;
-    width: 24px;
-    height: 24px;
-    color: var(--navbar-text-color);
-}
-
-/* Uniform nav items */
-.top-navbar .nav-uniform {
+.top-navbar .container-fluid {
     display: flex;
     align-items: center;
-    gap: 0.25rem;
+    gap: 1rem;
 }
 
-/* Each nav link is a consistent pill */
-.top-navbar .nav-uniform .nav-link {
-    display: inline-flex;
+.nav-uniform {
+    display: flex;
     align-items: center;
+    margin-left: auto;
     gap: 0.5rem;
-    padding: 0.45rem 0.9rem;
-    color: var(--navbar-text-color) !important;
-    text-decoration: none;
-    border-radius: 0.5rem;
-    transition: background-color 0.12s ease, transform 0.08s ease;
-    font-weight: 500;
 }
 
-/* Icon inside nav link */
-.top-navbar .nav-uniform .nav-link .nav-icon {
-    font-size: 1.05rem;
-    line-height: 1;
-    color: var(--navbar-text-color);
-}
-
-/* Small helper text container */
-.top-navbar .nav-uniform .nav-text {
-    display: inline-block;
-}
-
-/* Hover / focus for navigation items */
-.top-navbar .nav-uniform .nav-link:hover,
-.top-navbar .nav-uniform .nav-link:focus {
-    transform: translateY(-2px);
-    text-decoration: none;
-    outline: none;
-}
-
-/* Active link styles - theme-specific */
-.theme-dark .top-navbar .nav-uniform .nav-link.active {
-    background-color: rgba(255,255,255,0.08);
-    color: var(--navbar-text-color) !important;
-}
-
-.theme-light .top-navbar .nav-uniform .nav-link.active {
-    background-color: rgba(0,0,0,0.06);
-    color: var(--navbar-text-color) !important;
-}
-
-/* Theme toggle button styling: compact, icon-only */
-.top-navbar .theme-item-wrapper .theme-toggle {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.35rem;
-    margin-left: 0.25rem;
-    border-radius: 0.4rem;
+.nav-uniform .nav-link {
+    color: var(--nav-text) !important;
     background: transparent;
-    color: var(--navbar-text-color);
+    border-radius: 0.5rem;
+    padding: 0.45rem 0.85rem;
+    text-decoration: none;
+    border: none;
+}
+
+.nav-uniform .nav-link:hover,
+.nav-uniform .nav-link:focus {
+    background: rgba(255,255,255,0.06);
+    transform: translateY(-2px);
+}
+
+/* theme toggle */
+.theme-toggle {
+    color: var(--nav-text);
+    background: transparent;
     border: 1px solid transparent;
-    cursor: pointer;
+    padding: 0.35rem;
+    border-radius: 0.35rem;
 }
 
-.top-navbar .theme-item-wrapper .theme-toggle svg {
+/* content spacing so navbar doesn't overlap */
+.page-container {
+    padding-top: 76px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+/* reveal animation */
+.revealable {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 520ms cubic-bezier(.2,.9,.2,1), transform 520ms cubic-bezier(.2,.9,.2,1);
+}
+
+.revealable.revealed {
+    opacity: 1;
+    transform: none;
+}
+
+/* BIO */
+.artist-bio {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 1.25rem;
+    align-items: center;
+    margin: 2rem 0;
+}
+
+.artist-photo {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 50%;
     display: block;
-    color: var(--navbar-text-color);
 }
 
-/* Mobile: stack items inside collapsed menu */
-@media (max-width: 767.98px) {
-    .top-navbar .nav-uniform {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0.35rem;
-        padding: 0.5rem 0;
-    }
-
-    .top-navbar .nav-uniform .nav-link {
-        width: 100%;
-        padding-left: 1rem;
-        padding-right: 1rem;
-    }
-
-    .top-navbar .theme-item-wrapper {
-        display: flex;
-        justify-content: center;
-        padding: 0.25rem 0;
-    }
+/* social icons */
+.social-links { display:flex; gap:0.5rem; margin-top:0.5rem; }
+.social-link {
+    width:44px; height:44px; border-radius:50%;
+    display:inline-flex; align-items:center; justify-content:center;
+    color:var(--social-color); background:transparent; text-decoration:none;
+    border:1px solid transparent;
 }
+.social-link svg { width:22px; height:22px; fill:currentColor; }
 
-/* Keep existing app styles below (carousel, gallery, etc.) */
-/* ... existing styles unchanged ... */
+/* gallery grid */
+.gallery-grid { margin-top: 1rem; display:grid; grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); gap: 1rem; }
+
+.album-card {
+    background: var(--card-bg);
+    border-radius: 6px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid rgba(0,0,0,0.05);
+    transition: transform .12s ease, box-shadow .12s ease;
+}
+.album-card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,0.12); }
+.album-cover { width:100%; height:112px; object-fit:cover; display:block; }
+
+/* modal carousel */
+.carousel-overlay {
+    position: fixed; inset: 0; display:flex; align-items:center; justify-content:center;
+    background: var(--overlay-bg); z-index: 2000; padding: 1rem;
+}
+.carousel-container { width:100%; max-width:1200px; color:var(--nav-text); outline:none; }
+.carousel-stage { display:flex; align-items:center; gap:1rem; }
+.carousel-image { max-width:100%; max-height:75vh; object-fit:contain; border-radius:6px; }
+.carousel-control { background:transparent; border:none; color:var(--nav-text); font-size:2.2rem; cursor:pointer; }
+
+/* thumbs */
+.carousel-thumbs { display:flex; gap:.5rem; margin-top:.75rem; overflow:auto; justify-content:center; }
+.carousel-thumbs img { width:72px; height:48px; object-fit:cover; border-radius:4px; opacity:.8; cursor:pointer; border:2px solid transparent; }
+.carousel-thumbs img.active { opacity:1; border-color:var(--accent); }
+
+/* contact */
+.contact-section { margin-top:1.5rem; }
+
+/* responsive */
+@media (max-width: 768px) {
+    .artist-bio { grid-template-columns: 1fr; text-align:center; }
+    .artist-photo { margin: 0 auto; width:120px; height:120px; }
+    .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(140px,1fr)); }
+}
