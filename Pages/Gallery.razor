@@ -1,0 +1,75 @@
+﻿@page "/gallery"
+@using BlazorMurals.Shared.Models
+@using System
+
+<PageTitle>Gallery</PageTitle>
+
+<h1 class="mb-3">Artwork Gallery</h1>
+
+<AlbumGallery Albums="Albums" OnAlbumSelected="OpenAlbum" />
+
+<AlbumCarousel Album="SelectedAlbum" Visible="ShowCarousel" OnClose="CloseCarousel" />
+
+@code {
+    private List<Album> Albums = new();
+    private Album? SelectedAlbum;
+    private bool ShowCarousel;
+
+    protected override void OnInitialized()
+    {
+        // Example albums using seeded placeholder images (replace with your image URLs).
+        Albums = new List<Album>
+        {
+            new Album
+            {
+                Id = "1",
+                Title = "Vibrant Murals",
+                CoverUrl = "https://picsum.photos/seed/mural1/600/400",
+                Images = new List<string>
+                {
+                    "https://picsum.photos/seed/mural1-1/1200/800",
+                    "https://picsum.photos/seed/mural1-2/1200/800",
+                    "https://picsum.photos/seed/mural1-3/1200/800"
+                }
+            },
+            new Album
+            {
+                Id = "2",
+                Title = "Street Pieces",
+                CoverUrl = "https://picsum.photos/seed/street1/600/400",
+                Images = new List<string>
+                {
+                    "https://picsum.photos/seed/street1-1/1200/800",
+                    "https://picsum.photos/seed/street1-2/1200/800",
+                    "https://picsum.photos/seed/street1-3/1200/800"
+                }
+            },
+            new Album
+            {
+                Id = "3",
+                Title = "Abstract Walls",
+                CoverUrl = "https://picsum.photos/seed/abstract1/600/400",
+                Images = new List<string>
+                {
+                    "https://picsum.photos/seed/abstract1-1/1200/800",
+                    "https://picsum.photos/seed/abstract1-2/1200/800",
+                    "https://picsum.photos/seed/abstract1-3/1200/800"
+                }
+            }
+        };
+    }
+
+    private Task OpenAlbum(Album album)
+    {
+        SelectedAlbum = album;
+        ShowCarousel = true;
+        return Task.CompletedTask;
+    }
+
+    private Task CloseCarousel()
+    {
+        ShowCarousel = false;
+        SelectedAlbum = null;
+        return Task.CompletedTask;
+    }
+}

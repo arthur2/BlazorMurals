@@ -1,0 +1,106 @@
+﻿@inject IJSRuntime JS
+
+<div class="navbar navbar-expand-md fixed-top top-navbar" role="navigation" aria-label="Main navigation">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">BlazorMurals</a>
+
+        <button class="navbar-toggler" type="button" title="Navigation menu" @onclick="ToggleNavMenu"
+                aria-label="Toggle navigation" aria-expanded="@((!collapseNavMenu).ToString().ToLowerInvariant())"
+                aria-controls="navbarSupportedContent">
+            <!-- Inline SVG uses currentColor so it follows theme -->
+            <svg class="toggler-icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <rect x="3" y="6" width="18" height="2" rx="1" fill="currentColor" />
+                <rect x="3" y="11" width="18" height="2" rx="1" fill="currentColor" />
+                <rect x="3" y="16" width="18" height="2" rx="1" fill="currentColor" />
+            </svg>
+        </button>
+
+        <div id="navbarSupportedContent" class="@NavMenuCssClass">
+            <ul class="navbar-nav ms-auto nav-uniform">
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="" Match="NavLinkMatch.All" @onclick="CollapseIfOpen">
+                        <span class="bi bi-house-door-fill nav-icon" aria-hidden="true"></span>
+                        <span class="nav-text">Home</span>
+                    </NavLink>
+                </li>
+
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="counter" @onclick="CollapseIfOpen">
+                        <span class="bi bi-plus-square-fill nav-icon" aria-hidden="true"></span>
+                        <span class="nav-text">Counter</span>
+                    </NavLink>
+                </li>
+
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="weather" @onclick="CollapseIfOpen">
+                        <span class="bi bi-list-nested nav-icon" aria-hidden="true"></span>
+                        <span class="nav-text">Weather</span>
+                    </NavLink>
+                </li>
+
+                <li class="nav-item theme-item-wrapper">
+                    <button class="btn theme-toggle" @onclick="ToggleTheme" title="Toggle light / dark theme"
+                            aria-pressed="@IsDark.ToString().ToLowerInvariant()" aria-label="Toggle theme">
+                        @if (IsDark)
+                        {
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor"/></svg>
+                        }
+                        else
+                        {
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6.76 4.84l-1.8-1.79L3.17 4.84l1.79 1.79 1.8-1.79zM1 13h3v-2H1v2zm10 9h2v-3h-2v3zM6.76 19.16l1.79-1.79-1.79-1.8L4.97 17.36l1.79 1.8zM20 11v2h3v-2h-3zM13 1h-2v3h2V1zm6.04 3.05l-1.79 1.79 1.79 1.8 1.79-1.8L19.04 4.05z" fill="currentColor"/></svg>
+                        }
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    // Theme state (true when dark)
+    private bool IsDark { get; set; }
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse navbar-collapse" : "collapse navbar-collapse show";
+
+    private void ToggleNavMenu() => collapseNavMenu = !collapseNavMenu;
+
+    private void CollapseIfOpen()
+    {
+        if (!collapseNavMenu)
+        {
+            collapseNavMenu = true;
+            StateHasChanged();
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var theme = await JS.InvokeAsync<string>("eval", "localStorage.getItem('theme') || document.documentElement.getAttribute('data-theme') || (document.documentElement.classList.contains('theme-dark') ? 'dark' : (document.documentElement.classList.contains('theme-light') ? 'light' : ''))");
+            if (string.IsNullOrEmpty(theme))
+            {
+                theme = "light";
+            }
+
+            IsDark = theme.Equals("dark", StringComparison.OrdinalIgnoreCase);
+            StateHasChanged();
+        }
+    }
+
+    private async Task ToggleTheme()
+    {
+        var newTheme = IsDark ? "light" : "dark";
+        var script = $@"
+            localStorage.setItem('theme','{newTheme}');
+            document.documentElement.classList.remove('theme-light','theme-dark');
+            document.documentElement.classList.add('theme-{newTheme}');
+            document.documentElement.setAttribute('data-theme','{newTheme}');
+        ";
+        await JS.InvokeVoidAsync("eval", script);
+        IsDark = !IsDark;
+        StateHasChanged();
+    }
+}

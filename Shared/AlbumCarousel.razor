@@ -1,0 +1,92 @@
+﻿@using BlazorMurals.Shared.Models
+
+@if (Visible && Album is not null && Album.Images?.Count > 0)
+{
+    <div class="carousel-overlay" @onkeydown="HandleKey" tabindex="0" @ref="overlayRef">
+        <div class="carousel-container">
+            <button class="carousel-close btn-close" title="Close" @onclick="Close" aria-label="Close carousel"></button>
+
+            <div class="carousel-stage">
+                <button class="carousel-control prev" @onclick="Previous" aria-label="Previous image">‹</button>
+
+                <div class="carousel-image-wrapper">
+                    <img src="@CurrentImage" class="carousel-image" alt="@Album.Title" />
+                    <div class="carousel-caption">
+                        <div class="carousel-title">@Album.Title</div>
+                        <div class="carousel-index">@($"{CurrentIndex + 1} / {Album.Images.Count}")</div>
+                    </div>
+                </div>
+
+                <button class="carousel-control next" @onclick="Next" aria-label="Next image">›</button>
+            </div>
+
+            <div class="carousel-thumbs mt-3">
+                @for (int i = 0; i < Album.Images.Count; i++)
+                {
+                    var img = Album.Images[i];
+                    <img src="@img" class="thumb @(i == CurrentIndex ? "active" : "")" @onclick="@(()=>GoTo(i))" alt="@($"Thumbnail {i+1}")" />
+                }
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public Album? Album { get; set; }
+    [Parameter] public bool Visible { get; set; }
+    [Parameter] public EventCallback OnClose { get; set; }
+
+    private int CurrentIndex { get; set; }
+    private ElementReference overlayRef;
+
+    private string CurrentImage => Album?.Images?[CurrentIndex] ?? string.Empty;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Visible && Album is not null)
+        {
+            CurrentIndex = 0;
+            // ensure overlay receives keyboard focus
+            await Task.Yield();
+            _ = overlayRef.FocusAsync();
+        }
+    }
+
+    private Task Close() => OnClose.InvokeAsync();
+
+    private void Previous()
+    {
+        if (Album == null || Album.Images.Count == 0) return;
+        CurrentIndex = (CurrentIndex - 1 + Album.Images.Count) % Album.Images.Count;
+    }
+
+    private void Next()
+    {
+        if (Album == null || Album.Images.Count == 0) return;
+        CurrentIndex = (CurrentIndex + 1) % Album.Images.Count;
+    }
+
+    private void GoTo(int index)
+    {
+        if (Album == null) return;
+        CurrentIndex = Math.Clamp(index, 0, Album.Images.Count - 1);
+    }
+
+    private async Task HandleKey(KeyboardEventArgs e)
+    {
+        if (!Visible) return;
+
+        switch (e.Key)
+        {
+            case "ArrowLeft":
+                Previous();
+                break;
+            case "ArrowRight":
+                Next();
+                break;
+            case "Escape":
+                await Close();
+                break;
+        }
+    }
+}

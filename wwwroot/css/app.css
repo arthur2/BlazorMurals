@@ -1,0 +1,156 @@
+:root {
+    /* Light theme defaults */
+    --bg-color: #ffffff;
+    --text-color: #111827;
+    --link-color: #0071c1;
+    --secondary-color: #6c757d;
+    --navbar-text-color: #ffffff;
+}
+
+/* Dark theme overrides */
+.theme-dark {
+    --bg-color: #0b1220;
+    --text-color: #e6eef7;
+    --link-color: #7fb3ff;
+    --secondary-color: #343a40;
+    --navbar-text-color: #ffffff;
+}
+
+html, body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+/* ---- Navbar: uniform, theme-aware styles ---- */
+.top-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1040;
+    background-color: var(--secondary-color) !important;
+    color: var(--navbar-text-color) !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    min-height: 56px;
+}
+
+/* Brand */
+.top-navbar .navbar-brand {
+    color: var(--navbar-text-color) !important;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    margin-right: 0.5rem;
+}
+
+/* Toggler: use inline SVG and inherit color */
+.top-navbar .navbar-toggler {
+    border: none;
+    color: var(--navbar-text-color);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem 0.5rem;
+}
+
+.top-navbar .navbar-toggler .toggler-icon {
+    display: block;
+    width: 24px;
+    height: 24px;
+    color: var(--navbar-text-color);
+}
+
+/* Uniform nav items */
+.top-navbar .nav-uniform {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+/* Each nav link is a consistent pill */
+.top-navbar .nav-uniform .nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 0.9rem;
+    color: var(--navbar-text-color) !important;
+    text-decoration: none;
+    border-radius: 0.5rem;
+    transition: background-color 0.12s ease, transform 0.08s ease;
+    font-weight: 500;
+}
+
+/* Icon inside nav link */
+.top-navbar .nav-uniform .nav-link .nav-icon {
+    font-size: 1.05rem;
+    line-height: 1;
+    color: var(--navbar-text-color);
+}
+
+/* Small helper text container */
+.top-navbar .nav-uniform .nav-text {
+    display: inline-block;
+}
+
+/* Hover / focus for navigation items */
+.top-navbar .nav-uniform .nav-link:hover,
+.top-navbar .nav-uniform .nav-link:focus {
+    transform: translateY(-2px);
+    text-decoration: none;
+    outline: none;
+}
+
+/* Active link styles - theme-specific */
+.theme-dark .top-navbar .nav-uniform .nav-link.active {
+    background-color: rgba(255,255,255,0.08);
+    color: var(--navbar-text-color) !important;
+}
+
+.theme-light .top-navbar .nav-uniform .nav-link.active {
+    background-color: rgba(0,0,0,0.06);
+    color: var(--navbar-text-color) !important;
+}
+
+/* Theme toggle button styling: compact, icon-only */
+.top-navbar .theme-item-wrapper .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.35rem;
+    margin-left: 0.25rem;
+    border-radius: 0.4rem;
+    background: transparent;
+    color: var(--navbar-text-color);
+    border: 1px solid transparent;
+    cursor: pointer;
+}
+
+.top-navbar .theme-item-wrapper .theme-toggle svg {
+    display: block;
+    color: var(--navbar-text-color);
+}
+
+/* Mobile: stack items inside collapsed menu */
+@media (max-width: 767.98px) {
+    .top-navbar .nav-uniform {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.35rem;
+        padding: 0.5rem 0;
+    }
+
+    .top-navbar .nav-uniform .nav-link {
+        width: 100%;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .top-navbar .theme-item-wrapper {
+        display: flex;
+        justify-content: center;
+        padding: 0.25rem 0;
+    }
+}
+
+/* Keep existing app styles below (carousel, gallery, etc.) */
+/* ... existing styles unchanged ... */
