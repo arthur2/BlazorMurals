@@ -1,0 +1,103 @@
+{
+  "albums": [
+    {
+      "id": "a1",
+      "title": "Vibrant Murals",
+      "description": "A collection of large-scale colorful mural works executed in public spaces.",
+      "dateCreated": "2023-07-15",
+      "thumbnail": "images/albums/vibrant-murals/cover.jpg",
+      "images": [
+        {
+          "id": "a1-1",
+          "title": "Blue Echo",
+          "description": "Layered blue tones with geometric motifs.",
+          "dateCreated": "2023-06-01",
+          "thumbnail": "images/albums/vibrant-murals/thumbs/blue-echo.jpg",
+          "imagePath": "images/albums/vibrant-murals/blue-echo.jpg"
+        },
+        {
+          "id": "a1-2",
+          "title": "Sunrise Corridor",
+          "description": "Warm gradient sunrise across an urban corridor.",
+          "dateCreated": "2023-06-10",
+          "thumbnail": "images/albums/vibrant-murals/thumbs/sunrise-corridor.jpg",
+          "imagePath": "images/albums/vibrant-murals/sunrise-corridor.jpg"
+        },
+        {
+          "id": "a1-3",
+          "title": "Chromatic Burst",
+          "description": "Explosive color fields mapped into a city block.",
+          "dateCreated": "2023-06-22",
+          "thumbnail": "images/albums/vibrant-murals/thumbs/chromatic-burst.jpg",
+          "imagePath": "images/albums/vibrant-murals/chromatic-burst.jpg"
+        }
+      ]
+    },
+    {
+      "id": "a2",
+      "title": "Street Pieces",
+      "description": "Smaller street-level pieces and paste-ups displayed around the neighborhood.",
+      "dateCreated": "2022-11-03",
+      "thumbnail": "images/albums/street-pieces/cover.jpg",
+      "images": [
+        {
+          "id": "a2-1",
+          "title": "Concrete Flower",
+          "description": "Hand-painted floral motif on a garage door.",
+          "dateCreated": "2022-10-10",
+          "thumbnail": "images/albums/street-pieces/thumbs/concrete-flower.jpg",
+          "imagePath": "images/albums/street-pieces/concrete-flower.jpg"
+        },
+        {
+          "id": "a2-2",
+          "title": "Alley Stencil",
+          "description": "Stencil work layered with wheatpaste posters.",
+          "dateCreated": "2022-10-20",
+          "thumbnail": "images/albums/street-pieces/thumbs/alley-stencil.jpg",
+          "imagePath": "images/albums/street-pieces/alley-stencil.jpg"
+        },
+        {
+          "id": "a2-3",
+          "title": "Window Watcher",
+          "description": "Small character pasted near a storefront window.",
+          "dateCreated": "2022-10-29",
+          "thumbnail": "images/albums/street-pieces/thumbs/window-watcher.jpg",
+          "imagePath": "images/albums/street-pieces/window-watcher.jpg"
+        }
+      ]
+    },
+    {
+      "id": "a3",
+      "title": "Abstract Walls",
+      "description": "Experimental abstract compositions exploring texture and scale.",
+      "dateCreated": "2021-04-12",
+      "thumbnail": "images/albums/abstract-walls/cover.jpg",
+      "images": [
+        {
+          "id": "a3-1",
+          "title": "Textured Field",
+          "description": "Mixed media texture studies over a neutral base.",
+          "dateCreated": "2021-03-20",
+          "thumbnail": "images/albums/abstract-walls/thumbs/textured-field.jpg",
+          "imagePath": "images/albums/abstract-walls/textured-field.jpg"
+        },
+        {
+          "id": "a3-2",
+          "title": "Fragmented Plane",
+          "description": "Intersecting planes and subtle color shifts.",
+          "dateCreated": "2021-03-28",
+          "thumbnail": "images/albums/abstract-walls/thumbs/fragmented-plane.jpg",
+          "imagePath": "images/albums/abstract-walls/fragmented-plane.jpg"
+        },
+        {
+          "id": "a3-3",
+          "title": "Muted Geometry",
+          "description": "Soft geometry with layered washes and patina.",
+          "dateCreated": "2021-04-05",
+          "thumbnail": "images/albums/abstract-walls/thumbs/muted-geometry.jpg",
+          "imagePath": "images/albums/abstract-walls/muted-geometry.jpg"
+        }
+      ]
+    }
+  ]
+}

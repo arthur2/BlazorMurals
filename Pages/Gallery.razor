@@ -1,7 +1,7 @@
 ﻿@page "/gallery"
-@using BlazorMurals.Shared
 @using BlazorMurals.Shared.Models
-@using System
+@using System.Linq
+@inject HttpClient Http
 
 <PageTitle>Gallery</PageTitle>
 
@@ -16,48 +16,28 @@
     private Album? SelectedAlbum;
     private bool ShowCarousel;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        // Example albums using seeded placeholder images (replace with your image URLs).
-        Albums = new List<Album>
+        try
         {
-            new Album
+            var data = await Http.GetFromJsonAsync<GalleryData>("galleryData.json");
+            if (data?.Albums != null)
             {
-                Id = "1",
-                Title = "Vibrant Murals",
-                CoverUrl = "https://picsum.photos/seed/mural1/600/400",
-                Images = new List<string>
+                Albums = data.Albums.Select(a => new Album
                 {
-                    "https://picsum.photos/seed/mural1-1/1200/800",
-                    "https://picsum.photos/seed/mural1-2/1200/800",
-                    "https://picsum.photos/seed/mural1-3/1200/800"
-                }
-            },
-            new Album
-            {
-                Id = "2",
-                Title = "Street Pieces",
-                CoverUrl = "https://picsum.photos/seed/street1/600/400",
-                Images = new List<string>
-                {
-                    "https://picsum.photos/seed/street1-1/1200/800",
-                    "https://picsum.photos/seed/street1-2/1200/800",
-                    "https://picsum.photos/seed/street1-3/1200/800"
-                }
-            },
-            new Album
-            {
-                Id = "3",
-                Title = "Abstract Walls",
-                CoverUrl = "https://picsum.photos/seed/abstract1/600/400",
-                Images = new List<string>
-                {
-                    "https://picsum.photos/seed/abstract1-1/1200/800",
-                    "https://picsum.photos/seed/abstract1-2/1200/800",
-                    "https://picsum.photos/seed/abstract1-3/1200/800"
-                }
+                    Id = a.Id,
+                    Title = a.Title,
+                    CoverUrl = a.Thumbnail ?? string.Empty,
+                    Images = a.Images?.Select(i => string.IsNullOrWhiteSpace(i.ImagePath) ? i.Thumbnail : i.ImagePath)
+                                       .Where(p => !string.IsNullOrWhiteSpace(p))
+                                       .ToList() ?? new List<string>()
+                }).ToList();
             }
-        };
+        }
+        catch
+        {
+            Albums = new();
+        }
     }
 
     private Task OpenAlbum(Album album)

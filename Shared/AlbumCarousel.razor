@@ -3,89 +3,90 @@
 
 @if (Visible && Album is not null && Album.Images?.Count > 0)
 {
-    <div class="carousel-overlay" @onkeydown="HandleKey" tabindex="0" @ref="overlayRef">
-        <div class="carousel-container">
-            <div class="d-flex justify-content-end mb-2">
-                <button class="btn btn-close btn-close-white" @onclick="Close" aria-label="Close"></button>
-            </div>
+  <div class="carousel-overlay" @onkeydown="HandleKey" tabindex="0" @ref="overlayRef">
+    <div class="carousel-container">
+      <div class="d-flex justify-content-end mb-2">
+        <button class="btn btn-close btn-close-white" @onclick="Close" aria-label="Close"></button>
+      </div>
 
-            <div class="carousel-stage">
-                <button class="carousel-control" @onclick="Previous" aria-label="Previous">‹</button>
+      <div class="carousel-stage">
+        <button class="carousel-control" @onclick="Previous" aria-label="Previous">‹</button>
 
-                <div class="flex-grow-1 text-center">
-                    <img src="@CurrentImage" alt="@Album.Title" class="carousel-image" />
-                    <div class="mt-2 text-muted small">@($"{CurrentIndex + 1} / {Album.Images.Count}")</div>
-                </div>
-
-                <button class="carousel-control" @onclick="Next" aria-label="Next">›</button>
-            </div>
-
-            <div class="carousel-thumbs">
-                @for (int i = 0; i < Album.Images.Count; i++)
-                {
-                    <img src="@Album.Images[i]" class="@(i == CurrentIndex ? "active" : "")" @onclick="() => GoTo(i)" alt="@($"thumb {i + 1}")" />
-                }
-            </div>
+        <div class="flex-grow-1 text-center">
+          <img src="@CurrentImage" alt="@Album.Title" class="carousel-image" />
+          <div class="mt-2 text-muted small">@($"{CurrentIndex + 1} / {Album.Images.Count}")</div>
         </div>
+
+        <button class="carousel-control" @onclick="Next" aria-label="Next">›</button>
+      </div>
+
+      <div class="carousel-thumbs">
+        @for (int i = 0; i < Album.Images.Count; i++)
+        {
+            var idx = i; <!-- capture loop variable -->
+            <img src="@Album.Images[idx]" class="@(idx == CurrentIndex ? "active" : "")" @onclick="() => GoTo(idx)" alt="@($"thumb {idx+1}")" loading="lazy" />
+        }
+      </div>
     </div>
+  </div>
 }
 
 @code {
-    [Parameter] public Album? Album { get; set; }
-    [Parameter] public bool Visible { get; set; }
-    [Parameter] public EventCallback OnClose { get; set; }
+  [Parameter] public Album? Album { get; set; }
+  [Parameter] public bool Visible { get; set; }
+  [Parameter] public EventCallback OnClose { get; set; }
 
-    private int CurrentIndex { get; set; }
-    private ElementReference overlayRef;
-    private bool focusPending;
+  private int CurrentIndex { get; set; }
+  private ElementReference overlayRef;
+  private bool focusPending;
 
-    private string CurrentImage => Album?.Images?[CurrentIndex] ?? string.Empty;
+  private string CurrentImage => Album?.Images?[CurrentIndex] ?? string.Empty;
 
-    protected override Task OnParametersSetAsync()
+  protected override Task OnParametersSetAsync()
+  {
+    if (Visible && Album is not null && Album.Images?.Count > 0)
     {
-        if (Visible && Album is not null && Album.Images?.Count > 0)
-        {
-            CurrentIndex = 0;
-            focusPending = true;
-        }
-        return Task.CompletedTask;
+      CurrentIndex = 0;
+      focusPending = true;
     }
+    return Task.CompletedTask;
+  }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+  protected override async Task OnAfterRenderAsync(bool firstRender)
+  {
+    if (focusPending && Visible)
     {
-        if (focusPending && Visible)
-        {
-            focusPending = false;
-            try { await overlayRef.FocusAsync(); } catch { }
-        }
-        await base.OnAfterRenderAsync(firstRender);
+      focusPending = false;
+      try { await overlayRef.FocusAsync(); } catch { }
     }
+    await base.OnAfterRenderAsync(firstRender);
+  }
 
-    private Task Close() => OnClose.InvokeAsync();
+  private Task Close() => OnClose.InvokeAsync();
 
-    private void Previous()
-    {
-        if (Album == null) return;
-        CurrentIndex = (CurrentIndex - 1 + Album.Images.Count) % Album.Images.Count;
-    }
+  private void Previous()
+  {
+    if (Album == null || Album.Images.Count == 0) return;
+    CurrentIndex = (CurrentIndex - 1 + Album.Images.Count) % Album.Images.Count;
+  }
 
-    private void Next()
-    {
-        if (Album == null) return;
-        CurrentIndex = (CurrentIndex + 1) % Album.Images.Count;
-    }
+  private void Next()
+  {
+    if (Album == null || Album.Images.Count == 0) return;
+    CurrentIndex = (CurrentIndex + 1) % Album.Images.Count;
+  }
 
-    private void GoTo(int idx)
-    {
-        if (Album == null) return;
-        CurrentIndex = Math.Clamp(idx, 0, Album.Images.Count - 1);
-    }
+  private void GoTo(int idx)
+  {
+    if (Album == null) return;
+    CurrentIndex = Math.Clamp(idx, 0, Album.Images.Count - 1);
+  }
 
-    private async Task HandleKey(KeyboardEventArgs e)
-    {
-        if (!Visible) return;
-        if (e.Key == "ArrowLeft") Previous();
-        if (e.Key == "ArrowRight") Next();
-        if (e.Key == "Escape") await Close();
-    }
+  private async Task HandleKey(KeyboardEventArgs e)
+  {
+    if (!Visible) return;
+    if (e.Key == "ArrowLeft") Previous();
+    else if (e.Key == "ArrowRight") Next();
+    else if (e.Key == "Escape") await Close();
+  }
 }

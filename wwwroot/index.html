@@ -7,7 +7,7 @@
     <title>BlazorMurals</title>
     <base href="/" />
 
-    <!-- Theme boot: localStorage first, then appsettings.json -->
+    <!-- Theme boot: prefer localStorage then config -->
     <script>
         (function () {
             function applyTheme(t) {
@@ -17,19 +17,14 @@
                 document.documentElement.classList.add('theme-' + t);
                 document.documentElement.setAttribute('data-theme', t);
             }
-
             try {
                 var stored = localStorage.getItem('theme');
-                if (stored) {
-                    applyTheme(stored);
-                } else {
+                if (stored) applyTheme(stored);
+                else {
                     fetch('./appsettings.json')
-                        .then(function (r) { return r.json(); })
-                        .then(function (cfg) {
-                            var theme = (cfg && cfg.Theme) ? cfg.Theme : 'light';
-                            applyTheme(theme);
-                        })
-                        .catch(function () { applyTheme('light'); });
+                        .then(r => r.json())
+                        .then(cfg => applyTheme((cfg && cfg.Theme) ? cfg.Theme : 'light'))
+                        .catch(() => applyTheme('light'));
                 }
             } catch (e) {
                 applyTheme('light');
@@ -44,7 +39,7 @@
 <body>
     <div id="app"></div>
 
-    <div id="blazor-error-ui">
+    <div id="blazor-error-ui" hidden>
         An unhandled error has occurred.
         <a href="." class="reload">Reload</a>
         <span class="dismiss">🗙</span>
