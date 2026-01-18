@@ -1,13 +1,15 @@
 ﻿@using BlazorMurals.Shared.Models
 @using Microsoft.AspNetCore.Components.Web
+@using System.Linq
 
 <div class="gallery-grid">
   @foreach (var album in Albums)
   {
     <div class="album-card" role="button" tabindex="0" @onclick="() => Select(album)" @onkeydown="(e => OnKey(e, album))" aria-label="@($"Open album {album.Title}")">
       <img src="@album.CoverUrl" alt="@album.Title" class="album-cover" loading="lazy" />
-      <div class="p-2">
+      <div class="p-2 caption">
         <div class="fw-semibold text-truncate">@album.Title</div>
+        <div class="small text-truncate">@album.Description</div>
       </div>
     </div>
   }

@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using BlazorMurals.Shared.Models
 @using System.Linq
+@using System.Net.Http.Json
 @inject IJSRuntime JS
 @inject HttpClient Http
 
@@ -9,15 +10,18 @@
 <div class="page-container">
   <!-- Artist bio -->
   <section id="artist" class="artist-bio revealable">
-    <img class="artist-photo" src="https://picsum.photos/seed/artist/400/400" alt="Artist photo" />
+    <img class="artist-photo" src="@ArtistInfo?.ArtistPhotoPath" alt="Artist photo" />
     <div>
-      <h2>Artist Name</h2>
-      <p class="lead">Short bio describing background, style and influences. Concise, inviting and descriptive.</p>
-      <div class="social-links">
-        <a class="social-link" href="#" aria-label="Twitter"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 5.92c-.63.28-1.3.47-2 .56.72-.43 1.28-1.1 1.54-1.9-.67.4-1.4.7-2.18.86C18.7 4.3 17.6 4 16.43 4c-1.86 0-3.36 1.5-3.36 3.35 0 .26.03.51.08.75C9.7 8.02 6.1 6.1 3.9 3.14c-.29.5-.46 1.08-.46 1.7 0 1.17.6 2.2 1.52 2.8-.56-.02-1.08-.17-1.54-.43v.04c0 1.62 1.15 2.98 2.67 3.29-.28.08-.58.12-.88.12-.22 0-.44-.02-.65-.06.44 1.37 1.72 2.36 3.23 2.39-1.18.93-2.66 1.5-4.27 1.5-.28 0-.56-.02-.83-.05 1.53.98 3.35 1.55 5.3 1.55 6.36 0 9.85-5.27 9.85-9.84v-.45c.68-.5 1.26-1.12 1.72-1.83-.63.28-1.32.48-2.03.56z"/></svg></a>
-        <a class="social-link" href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 6a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm6.5-3a1.2 1.2 0 1 0 0 2.4A1.2 1.2 0 0 0 18.5 5z"/></svg></a>
-        <a class="social-link" href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.5 9.9v-7H8.9v-2.9h1.6V9.4c0-1.6 1-2.5 2.4-2.5.7 0 1.4.05 2 .1v2.3h-1.2c-1 0-1.3.6-1.3 1.2v1.5h2.3l-.37 2.9h-1.95v7A10 10 0 0 0 22 12z"/></svg></a>
-      </div>
+      <h2>@ArtistInfo?.ArtistName</h2>
+      <p class="lead">@ArtistInfo?.ArtistBio</p>
+      @if(false)
+      {
+        <div class="social-links">
+            <a class="social-link" href="#" aria-label="Twitter"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 5.92c-.63.28-1.3.47-2 .56.72-.43 1.28-1.1 1.54-1.9-.67.4-1.4.7-2.18.86C18.7 4.3 17.6 4 16.43 4c-1.86 0-3.36 1.5-3.36 3.35 0 .26.03.51.08.75C9.7 8.02 6.1 6.1 3.9 3.14c-.29.5-.46 1.08-.46 1.7 0 1.17.6 2.2 1.52 2.8-.56-.02-1.08-.17-1.54-.43v.04c0 1.62 1.15 2.98 2.67 3.29-.28.08-.58.12-.88.12-.22 0-.44-.02-.65-.06.44 1.37 1.72 2.36 3.23 2.39-1.18.93-2.66 1.5-4.27 1.5-.28 0-.56-.02-.83-.05 1.53.98 3.35 1.55 5.3 1.55 6.36 0 9.85-5.27 9.85-9.84v-.45c.68-.5 1.26-1.12 1.72-1.83-.63.28-1.32.48-2.03.56z" /></svg></a>
+            <a class="social-link" href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 6a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm6.5-3a1.2 1.2 0 1 0 0 2.4A1.2 1.2 0 0 0 18.5 5z" /></svg></a>
+            <a class="social-link" href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.5 9.9v-7H8.9v-2.9h1.6V9.4c0-1.6 1-2.5 2.4-2.5.7 0 1.4.05 2 .1v2.3h-1.2c-1 0-1.3.6-1.3 1.2v1.5h2.3l-.37 2.9h-1.95v7A10 10 0 0 0 22 12z" /></svg></a>
+        </div>
+      }
     </div>
   </section>
 
@@ -30,7 +34,7 @@
   <!-- Contact -->
   <section id="contact" class="contact-section revealable">
     <h3>Contact</h3>
-    <p>For commissions or inquiries, email <strong>artist@example.com</strong>.</p>
+    <p>@((MarkupString)(ArtistInfo?.Contact ?? ""))</p>
   </section>
 </div>
 
@@ -38,6 +42,7 @@
 
 @code {
   private List<Album> Albums = new();
+  private Artist? ArtistInfo = new ();
   private Album? SelectedAlbum;
   private bool ShowCarousel;
 
@@ -45,18 +50,31 @@
   {
     try
     {
-      var data = await Http.GetFromJsonAsync<GalleryData>("galleryData.json");
+      var data = await Http.GetFromJsonAsync<GalleryData>(
+        "data/galleryData.json",
+        new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+      );
+
+      if(data?.Artist != null)
+      {
+        ArtistInfo = data.Artist;
+      }
+
       if (data?.Albums != null)
       {
-        Albums = data.Albums.Select(a => new Album
+        // Use Album/AlbumImage directly; ensure each image has ImagePath populated (fallback to thumbnail)
+        Albums = data.Albums;
+        foreach (var album in Albums)
         {
-          Id = a.Id,
-          Title = a.Title,
-          CoverUrl = string.IsNullOrWhiteSpace(a.Thumbnail) ? string.Empty : a.Thumbnail,
-          Images = a.Images?.Select(i => string.IsNullOrWhiteSpace(i.ImagePath) ? i.Thumbnail : i.ImagePath)
-                             .Where(p => !string.IsNullOrWhiteSpace(p))
-                             .ToList() ?? new List<string>()
-        }).ToList();
+          if (album.Images == null) album.Images = new List<AlbumImage>();
+          foreach (var img in album.Images)
+          {
+            if (string.IsNullOrWhiteSpace(img.ImagePath))
+            {
+              img.ImagePath = img.Thumbnail;
+            }
+          }
+        }
       }
     }
     catch

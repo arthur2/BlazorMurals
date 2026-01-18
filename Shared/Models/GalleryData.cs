@@ -2,29 +2,19 @@ using System.Collections.Generic;
 
 namespace BlazorMurals.Shared.Models
 {
-    // DTOs to mirror wwwroot/galleryData.json structure
+    // Root object for galleryData.json — now uses Album/AlbumImage directly (no DTOs)
     public class GalleryData
     {
-        public List<AlbumDto> Albums { get; set; } = new();
+        public Artist Artist { get; set; } = new();
+
+        public List<Album> Albums { get; set; } = new();
     }
 
-    public class AlbumDto
+    public class Artist
     {
-        public string Id { get; set; } = string.Empty;
-        public string Title { get; set; } = string.Empty;
-        public string Description { get; set; } = string.Empty;
-        public string DateCreated { get; set; } = string.Empty;
-        public string Thumbnail { get; set; } = string.Empty;
-        public List<ImageDto> Images { get; set; } = new();
-    }
-
-    public class ImageDto
-    {
-        public string Id { get; set; } = string.Empty;
-        public string Title { get; set; } = string.Empty;
-        public string Description { get; set; } = string.Empty;
-        public string DateCreated { get; set; } = string.Empty;
-        public string Thumbnail { get; set; } = string.Empty;
-        public string ImagePath { get; set; } = string.Empty;
+        public string ArtistName { get; set; } = string.Empty;
+        public string ArtistBio { get; set; } = string.Empty;
+        public string ArtistPhotoPath { get; set; } = string.Empty;
+        public string Contact { get; set; } = string.Empty;
     }
 }

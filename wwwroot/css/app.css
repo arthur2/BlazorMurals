@@ -22,7 +22,7 @@ html, body {
   margin:0;
   background:var(--bg);
   color:var(--text);
-  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-family: Calibri, 'Helvetica Neue', Arial, sans-serif;
   -webkit-font-smoothing:antialiased;
 }
 
@@ -31,6 +31,18 @@ html, body {
   max-width:1100px;
   margin:0 auto;
   padding:78px 16px 48px; /* top offset for any future fixed header */
+}
+
+section {
+    margin: 6rem 1rem 3rem 1rem;
+}
+
+section h2, section h3 {
+    margin: 2rem 0rem 0rem 0rem;
+}
+
+section p {
+    margin: 1rem 0rem;
 }
 
 /* reveal animation */
@@ -55,26 +67,97 @@ html, body {
 }
 .social-link svg { width:22px; height:22px; fill:currentColor; }
 
-/* gallery grid */
-.gallery-grid { display:grid; gap:1rem; grid-template-columns:repeat(auto-fill, minmax(160px,1fr)); margin-top:1rem; }
-.album-card { background:var(--card-bg); border-radius:8px; overflow:hidden; cursor:pointer; border:1px solid rgba(0,0,0,0.06); transition:transform .12s ease, box-shadow .12s ease; }
-.album-card:hover { transform:translateY(-4px); box-shadow:0 12px 30px rgba(0,0,0,0.12); }
-.album-cover { width:100%; height:112px; object-fit:cover; display:block; }
+/* gallery grid - increased thumbnail size */
+.gallery-grid { display:grid; gap:1rem; grid-template-columns:repeat(auto-fill, minmax(360px,1fr)); margin:0rem 0rem; }
+.album-card { background:var(--card-bg); border-radius:8px; overflow:hidden; cursor:pointer; border:1px solid rgba(0,0,0,0.06); transition:transform .12s ease, box-shadow .12s ease; margin: 2rem 0rem;}
+.album-card:hover { /*transform:translateY(-4px); box-shadow:0 12px 30px rgba(0,0,0,0.12);*/ }
+/* square album thumbnail using aspect-ratio with slow hover zoom and opacity transition */
+.album-cover {
+  width:100%;
+  aspect-ratio:1/1;
+  object-fit:cover;
+  display:block;
+
+  /* start semi-transparent */
+  opacity: 0.60;
+
+  /* slow zoom on hover and slow opacity transition (4s) */
+  transition: transform 3s ease-in-out, opacity 3s ease-in-out;
+  will-change: transform, opacity;
+}
+
+/* apply gentle zoom while hovered and fade out opacity to 0 over 4s — reverses smoothly on mouse leave */
+.album-card:hover .album-cover {
+  transform: scale(1.06);
+  opacity: 1.0;
+}
+
+.album-card .caption{
+    margin-top:1rem;
+}
 
 /* modal carousel */
 .carousel-overlay { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:var(--overlay-bg); z-index:2000; padding:1rem; }
 .carousel-container { width:100%; max-width:1200px; color:var(--text); outline:none; }
 .carousel-stage { display:flex; align-items:center; gap:1rem; }
-.carousel-image { max-width:100%; max-height:75vh; object-fit:contain; border-radius:8px; }
-.carousel-control { background:transparent; border:none; color:var(--text); font-size:2.2rem; cursor:pointer; }
+.carousel-image { max-width:100%; max-height:70vh; object-fit:contain; border-radius:8px; }
 
-/* thumbs */
+/* caption under main carousel image */
+.carousel-caption { position:static !important; padding-top: 0rem; text-align:center; color:var(--text); }
+.carousel-caption h3 { margin:0; font-size:1.05rem; }
+.carousel-caption p { margin:.25rem 0 0; color:var(--muted); font-size:.95rem; }
+
+/* thumbs - enlarged */
 .carousel-thumbs { display:flex; gap:.5rem; margin-top:.75rem; overflow:auto; justify-content:center; }
-.carousel-thumbs img { width:72px; height:48px; object-fit:cover; border-radius:6px; opacity:.8; cursor:pointer; border:2px solid transparent; }
+.carousel-thumbs img { width:120px; height:80px; object-fit:cover; border-radius:6px; opacity:.8; cursor:pointer; border:2px solid transparent; }
 .carousel-thumbs img.active { opacity:1; border-color:var(--accent); }
 
+/* Image fade transitions (kept for compatibility with fade classes) */
+.carousel-image {
+  max-width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  border-radius: 8px;
+
+  opacity: 1;
+  transform: none;
+  transition: opacity .26s ease, transform .26s ease;
+}
+
+/* fade out shrinks and fades the image (override animation when leaving) */
+.carousel-image.fade-out {
+  opacity: 0;
+  transform: scale(.98) !important;
+  transition: opacity .22s ease, transform .22s ease;
+}
+
+/* fade in restores image visibility */
+.carousel-image.fade-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* --- slow zoom effect applied when focused --- */
+.carousel-image.zoom {
+  /* small, slow zoom-in */
+  animation: slow-zoom 12s ease-in-out forwards;
+  /* ensure the image still participates in the opacity/transform transitions */
+  will-change: transform;
+}
+
+/* keyframes: gentle zoom-in from scale(1) to scale(1.06) */
+@keyframes slow-zoom {
+  from { transform: scale(1); }
+  to   { transform: scale(1.06); }
+}
+
+/* When fading out we rely on .fade-out to force the leaving transform (uses !important above) */
 /* responsive */
 @media (max-width:768px) {
   .artist-bio { grid-template-columns:1fr; text-align:center; }
   .artist-photo { margin:0 auto; width:120px; height:120px; }
+  /* reduce album thumbnails on narrow screens */
+  .gallery-grid { grid-template-columns:repeat(auto-fill, minmax(160px,1fr)); }
+  .album-cover { aspect-ratio:1/1; }
+  .carousel-thumbs img { width:92px; height:62px; }
 }

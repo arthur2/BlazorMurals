@@ -1,9 +1,9 @@
 ﻿@using BlazorMurals.Shared.Models
 @using Microsoft.AspNetCore.Components.Web
 
-@if (Visible && Album is not null && Album.Images?.Count > 0)
+@if (isRendered && Album is not null && Album.Images?.Count > 0)
 {
-  <div class="carousel-overlay" @onkeydown="HandleKey" tabindex="0" @ref="overlayRef">
+  <div class="carousel-overlay @overlayClass" @onkeydown="HandleKey" tabindex="0" @ref="overlayRef">
     <div class="carousel-container">
       <div class="d-flex justify-content-end mb-2">
         <button class="btn btn-close btn-close-white" @onclick="Close" aria-label="Close"></button>
@@ -13,18 +13,23 @@
         <button class="carousel-control" @onclick="Previous" aria-label="Previous">‹</button>
 
         <div class="flex-grow-1 text-center">
-          <img src="@CurrentImage" alt="@Album.Title" class="carousel-image" />
+          <img src="@CurrentImagePath" alt="@CurrentImageTitle" class="carousel-image @imageClass" />
           <div class="mt-2 text-muted small">@($"{CurrentIndex + 1} / {Album.Images.Count}")</div>
         </div>
 
         <button class="carousel-control" @onclick="Next" aria-label="Next">›</button>
       </div>
 
+      <div class="carousel-caption">
+        <h3>@CurrentImageTitle</h3>
+        <p>@CurrentImageDescription</p>
+      </div>
+
       <div class="carousel-thumbs">
         @for (int i = 0; i < Album.Images.Count; i++)
         {
             var idx = i; <!-- capture loop variable -->
-            <img src="@Album.Images[idx]" class="@(idx == CurrentIndex ? "active" : "")" @onclick="() => GoTo(idx)" alt="@($"thumb {idx+1}")" loading="lazy" />
+            <img src="@Album.Images[idx].Thumbnail" class="@(idx == CurrentIndex ? "active" : "")" @onclick="() => GoTo(idx)" alt="@Album.Images[idx].Title" loading="lazy" />
         }
       </div>
     </div>
@@ -40,21 +45,56 @@
   private ElementReference overlayRef;
   private bool focusPending;
 
-  private string CurrentImage => Album?.Images?[CurrentIndex] ?? string.Empty;
+  // Rendering / animation state
+  private bool isRendered;
+  private string overlayClass = string.Empty; // "overlay-visible" | "overlay-hidden"
+  private string imageClass = string.Empty;   // e.g. "fade-in zoom" | "fade-out"
 
-  protected override Task OnParametersSetAsync()
+  // animation durations (match CSS)
+  private readonly int overlayMs = 280;
+  private readonly int imageMs = 260;
+
+  private string CurrentImagePath => Album?.Images?.Count > 0 ? Album.Images[CurrentIndex].ImagePath : string.Empty;
+  private string CurrentImageTitle => Album?.Images?.Count > 0 ? Album.Images[CurrentIndex].Title : string.Empty;
+  private string CurrentImageDescription => Album?.Images?.Count > 0 ? Album.Images[CurrentIndex].Description : string.Empty;
+
+  protected override async Task OnParametersSetAsync()
   {
     if (Visible && Album is not null && Album.Images?.Count > 0)
     {
-      CurrentIndex = 0;
-      focusPending = true;
+      // show: ensure rendered, reset index and run enter animation
+      if (!isRendered)
+      {
+        isRendered = true;
+        CurrentIndex = 0;
+        overlayClass = "overlay-visible";
+        imageClass = "fade-in zoom"; // start with zoom enabled
+        focusPending = true;
+        StateHasChanged();
+        await Task.Delay(imageMs);
+        imageClass = "zoom"; // keep zoom running after fade-in completes
+      }
+      else
+      {
+        // album already rendered: ensure zoom running for current image
+        imageClass = "zoom";
+      }
     }
-    return Task.CompletedTask;
+    else if (!Visible && isRendered)
+    {
+      // hide: start overlay leave animation then stop rendering
+      overlayClass = "overlay-hidden";
+      StateHasChanged();
+      await Task.Delay(overlayMs);
+      isRendered = false;
+      overlayClass = string.Empty;
+      imageClass = string.Empty;
+    }
   }
 
   protected override async Task OnAfterRenderAsync(bool firstRender)
   {
-    if (focusPending && Visible)
+    if (focusPending && isRendered)
     {
       focusPending = false;
       try { await overlayRef.FocusAsync(); } catch { }
@@ -64,29 +104,38 @@
 
   private Task Close() => OnClose.InvokeAsync();
 
-  private void Previous()
+  private Task Previous() => SwitchToIndexAsync((CurrentIndex - 1 + (Album?.Images.Count ?? 1)) % (Album?.Images.Count ?? 1));
+  private Task Next() => SwitchToIndexAsync((CurrentIndex + 1) % (Album?.Images.Count ?? 1));
+
+  private Task GoTo(int idx) => SwitchToIndexAsync(idx);
+
+  private async Task SwitchToIndexAsync(int newIndex)
   {
     if (Album == null || Album.Images.Count == 0) return;
-    CurrentIndex = (CurrentIndex - 1 + Album.Images.Count) % Album.Images.Count;
-  }
+    newIndex = Math.Clamp(newIndex, 0, Album.Images.Count - 1);
+    if (newIndex == CurrentIndex) return;
 
-  private void Next()
-  {
-    if (Album == null || Album.Images.Count == 0) return;
-    CurrentIndex = (CurrentIndex + 1) % Album.Images.Count;
-  }
+    // fade out current image and stop zoom
+    imageClass = "fade-out";
+    StateHasChanged();
+    await Task.Delay(imageMs);
 
-  private void GoTo(int idx)
-  {
-    if (Album == null) return;
-    CurrentIndex = Math.Clamp(idx, 0, Album.Images.Count - 1);
+    // swap image and fade in with zoom
+    CurrentIndex = newIndex;
+    imageClass = "fade-in zoom";
+    StateHasChanged();
+    await Task.Delay(imageMs);
+
+    // leave zoom running
+    imageClass = "zoom";
+    StateHasChanged();
   }
 
   private async Task HandleKey(KeyboardEventArgs e)
   {
     if (!Visible) return;
-    if (e.Key == "ArrowLeft") Previous();
-    else if (e.Key == "ArrowRight") Next();
+    if (e.Key == "ArrowLeft") await Previous();
+    else if (e.Key == "ArrowRight") await Next();
     else if (e.Key == "Escape") await Close();
   }
 }

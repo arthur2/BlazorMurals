@@ -12,4 +12,9 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.1" PrivateAssets="all" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\albums\covers\" />
+    <Folder Include="wwwroot\images\albums\thumbs\" />
+  </ItemGroup>
+
 </Project>

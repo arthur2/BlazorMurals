@@ -1,0 +1,232 @@
+{
+    "Artist": {
+        "ArtistName": "Artist Name",
+        "ArtistBio": "Short bio describing background, style and influences. Concise, inviting and descriptive.",
+        "ArtistPhotoPath": "images/albums/ab764364-6356-4f48-9a64-110d1a37353d.gif",
+        "Contact": "For commissions or inquiries, email <strong>artist@example.com</strong>."
+    },
+
+    "albums": [
+        {
+            "id": "a1",
+            "title": "Crimson and Azure",
+            "description": "A Jedi and a Sith clash on a windswept ridge as blue and red blades paint arcs through the dust, each strike testing the other's calm and fury.",
+            "dateCreated": "2023-07-15",
+            "thumbnail": "images/albums/covers/52a4a229-e208-4635-b524-ee94e5dc64e3.jpg",
+            "images": [
+                {
+                    "id": "a1-g1",
+                    "title": "Ridge Duel at Dawn",
+                    "description": "A Jedi and a Sith trade disciplined blows on a windswept ridge as the first light catches their blades, testing resolve and balance.",
+                    "dateCreated": "2026-01-19",
+                    "thumbnail": "images/albums/thumbs/030a5a72-ef7c-4da5-a8b1-65eb474ed6ff.gif",
+                    "imagePath": "images/albums/030a5a72-ef7c-4da5-a8b1-65eb474ed6ff.gif"
+                },
+                {
+                    "id": "a1-g2",
+                    "title": "Counterstrike Sparks",
+                    "description": "The Sith's furious assault is met by a sudden Jedi counterstrike, sparks flying as momentum shifts in a heartbeat.",
+                    "dateCreated": "2026-01-19",
+                    "thumbnail": "images/albums/thumbs/b42a3f17-e57d-49d7-a600-f6bf78c96da2.gif",
+                    "imagePath": "images/albums/b42a3f17-e57d-49d7-a600-f6bf78c96da2.gif"
+                },
+                {
+                    "id": "a1-1",
+                    "title": "Saber Sparks",
+                    "description": "The Jedi pivots to deflect a brutal overhead strike, sparks cascading while the Force hums between them.",
+                    "dateCreated": "2023-06-01",
+                    "thumbnail": "images/albums/thumbs/14ef31bc-843e-4b35-abc8-8a10deaa3cf1.jpg",
+                    "imagePath": "images/albums/14ef31bc-843e-4b35-abc8-8a10deaa3cf1.jpg"
+                },
+                {
+                    "id": "a1-2",
+                    "title": "Midnight Parry",
+                    "description": "Under a shattered hangar, measured parries give way to sudden flurries as both combatants test reach and resolve.",
+                    "dateCreated": "2023-06-10",
+                    "thumbnail": "images/albums/thumbs/17833756-306a-4df0-8c0f-7da818d7bae9.jpg",
+                    "imagePath": "images/albums/17833756-306a-4df0-8c0f-7da818d7bae9.jpg"
+                },
+                {
+                    "id": "a1-3",
+                    "title": "Echoes of the Force",
+                    "description": "Silent on ancient stone, the Jedi reads the Sith's intent through the Force and meets each strike with tempered precision.",
+                    "dateCreated": "2023-06-22",
+                    "thumbnail": "images/albums/thumbs/1fee8a6b-e530-484b-b0d9-0cd7e9cbf5c7.jpg",
+                    "imagePath": "images/albums/1fee8a6b-e530-484b-b0d9-0cd7e9cbf5c7.jpg"
+                }
+            ]
+        },
+        {
+            "id": "a2",
+            "title": "Standoff at the Core",
+            "description": "Heat and magnetic storms tear at armor as a Jedi and a Sith duel above a planet's molten heart, each blow sending embers into the air.",
+            "dateCreated": "2022-11-03",
+            "thumbnail": "images/albums/covers/962f6834-9794-4d42-b645-07abc138bb3e.jpg",
+            "images": [
+                {
+                    "id": "a2-g1",
+                    "title": "Molten Catwalk Clash",
+                    "description": "They duel above molten veins, each strike throwing embers and testing footing as the planet's heat threatens to claim a misstep.",
+                    "dateCreated": "2026-01-19",
+                    "thumbnail": "images/albums/thumbs/0925b726-949b-45e9-9007-95e2839b79e5.gif",
+                    "imagePath": "images/albums/0925b726-949b-45e9-9007-95e2839b79e5.gif"
+                },
+                {
+                    "id": "a2-g2",
+                    "title": "Shadow Feint",
+                    "description": "A Sith feint cloaked in smoke draws a reaction, but the Jedi's calm focus finds the true opening and answers in kind.",
+                    "dateCreated": "2026-01-19",
+                    "thumbnail": "images/albums/thumbs/cfecb495-9711-4adf-af99-050cb87655d8.gif",
+                    "imagePath": "images/albums/cfecb495-9711-4adf-af99-050cb87655d8.gif"
+                },
+                {
+                    "id": "a2-1",
+                    "title": "Catwalk Duel",
+                    "description": "They circle on a narrow catwalk; one misstep means falling into the abyss, so every strike is measured and lethal.",
+                    "dateCreated": "2022-10-10",
+                    "thumbnail": "images/albums/thumbs/26796ac2-0504-4d1a-b630-6a6344b7046f.jpg",
+                    "imagePath": "images/albums/26796ac2-0504-4d1a-b630-6a6344b7046f.jpg"
+                },
+                {
+                    "id": "a2-2",
+                    "title": "Wraith Duel",
+                    "description": "Fog and swirling debris hide feints and telekinetic strikes as both warriors vanish and reappear in fleeting silhouettes.",
+                    "dateCreated": "2022-10-20",
+                    "thumbnail": "images/albums/thumbs/2f472cf1-c1ae-4028-9d4d-6f72b87105d7.jpg",
+                    "imagePath": "images/albums/2f472cf1-c1ae-4028-9d4d-6f72b87105d7.jpg"
+                },
+                {
+                    "id": "a2-3",
+                    "title": "Tide of Blades",
+                    "description": "A relentless barrage from the Sith is met by the Jedi's calm riposte; the duel becomes a tide of light and shadow.",
+                    "dateCreated": "2022-10-29",
+                    "thumbnail": "images/albums/thumbs/2f6adfa4-2012-40ac-a217-3b9caeeed17e.jpg",
+                    "imagePath": "images/albums/2f6adfa4-2012-40ac-a217-3b9caeeed17e.jpg"
+                }
+            ]
+        },
+        {
+            "id": "a3",
+            "title": "Shards of Night",
+            "description": "Debris and starlight refract across flashing blades while a Jedi seeks to outmaneuver a Sith's raw aggression beneath a shattered sky.",
+            "dateCreated": "2021-04-12",
+            "thumbnail": "images/albums/e91401a0-2ff1-44d4-81b0-7860b2c52f9f.jpg",
+            "images": [
+                {
+                    "id": "a3-g1",
+                    "title": "Echoes on Stone",
+                    "description": "On ancient stone the Jedi listens to the Force and answers the Sith's relentless strikes with a measured, echoing riposte.",
+                    "dateCreated": "2026-01-19",
+                    "thumbnail": "images/albums/thumbs/2289f6f6-073b-4e67-9c5b-1a38942a85fe.gif",
+                    "imagePath": "images/albums/2289f6f6-073b-4e67-9c5b-1a38942a85fe.gif"
+                },
+                {
+                    "id": "a3-1",
+                    "title": "Silent Riposte",
+                    "description": "A quiet counterstrike breaks the Sith's momentum, the Jedi using perfect timing rather than force to gain the advantage.",
+                    "dateCreated": "2021-03-20",
+                    "thumbnail": "images/albums/thumbs/375c52b4-798b-48bc-a95e-40226c117a88.jpg",
+                    "imagePath": "images/albums/375c52b4-798b-48bc-a95e-40226c117a88.jpg"
+                },
+                {
+                    "id": "a3-2",
+                    "title": "Volt Strike",
+                    "description": "An explosive exchange of blades sends arcs of electricity across metal beams as both fighters press their assault.",
+                    "dateCreated": "2021-03-28",
+                    "thumbnail": "images/albums/thumbs/3e68e8a2-0fa3-4044-8581-8a900e4c2960.jpg",
+                    "imagePath": "images/albums/3e68e8a2-0fa3-4044-8581-8a900e4c2960.jpg"
+                },
+                {
+                    "id": "a3-3",
+                    "title": "Final Measure",
+                    "description": "Both breathing hard, the duel narrows to skill and will, each strike a question of who will yield first.",
+                    "dateCreated": "2021-04-05",
+                    "thumbnail": "images/albums/thumbs/464d6dc0-c8aa-4e25-8bab-b6d2bcedead8.jpg",
+                    "imagePath": "images/albums/464d6dc0-c8aa-4e25-8bab-b6d2bcedead8.jpg"
+                }
+            ]
+        },
+        {
+            "id": "a4",
+            "title": "Twin Pathways",
+            "description": "Two Force-users meet on a fractured walkway, blades clashing while the galaxy's fate hangs in the balance between their choices.",
+            "dateCreated": "2023-07-15",
+            "thumbnail": "images/albums/26796ac2-0504-4d1a-b630-6a6344b7046f.jpg",
+            "images": [
+                {
+                    "id": "a4-g1",
+                    "title": "Void Sparks",
+                    "description": "Across an open chasm their sabers flash; balance and nerve are tested as each combatant seeks the decisive opening.",
+                    "dateCreated": "2026-01-19",
+                    "thumbnail": "images/albums/thumbs/a6cbf9db-2cab-4475-a3bf-d028519cc99a.gif",
+                    "imagePath": "images/albums/a6cbf9db-2cab-4475-a3bf-d028519cc99a.gif"
+                },
+                {
+                    "id": "a4-1",
+                    "title": "Parry and Turn",
+                    "description": "A deft parry is followed by a spinning counterattack as the Jedi exploits a fleeting opening in the Sith's defense.",
+                    "dateCreated": "2023-06-01",
+                    "thumbnail": "images/albums/thumbs/499c02e3-6388-4167-a538-ad5c873d5214.jpg",
+                    "imagePath": "images/albums/499c02e3-6388-4167-a538-ad5c873d5214.jpg"
+                },
+                {
+                    "id": "a4-2",
+                    "title": "Sparks Over Void",
+                    "description": "Sabers spark over an open chasm as each combatant pushes forward, testing balance and nerve.",
+                    "dateCreated": "2023-06-10",
+                    "thumbnail": "images/albums/thumbs/52a4a229-e208-4635-b524-ee94e5dc64e3.jpg",
+                    "imagePath": "images/albums/52a4a229-e208-4635-b524-ee94e5dc64e3.jpg"
+                },
+                {
+                    "id": "a4-3",
+                    "title": "Rending Blow",
+                    "description": "A ferocious strike nearly breaks the Jedi's guard, but balance and the Force turn catastrophe into opportunity.",
+                    "dateCreated": "2023-06-22",
+                    "thumbnail": "images/albums/thumbs/53686ec0-5eaf-4544-9327-5321bab7dd41.jpg",
+                    "imagePath": "images/albums/53686ec0-5eaf-4544-9327-5321bab7dd41.jpg"
+                }
+            ]
+        },
+        {
+            "id": "a5",
+            "title": "Blades in the Storm",
+            "description": "A Sith's rage whips the storm higher while a Jedi steadies breath, turning fury back with disciplined technique and sudden cunning.",
+            "dateCreated": "2022-11-03",
+            "thumbnail": "images/albums/covers/53686ec0-5eaf-4544-9327-5321bab7dd41.jpg",
+            "images": [
+                {
+                    "id": "a5-g1",
+                    "title": "Stormborne Exchange",
+                    "description": "Winds and rain whip around them as the Sith strikes with raw force; the Jedi bends the storm, redirecting energy into a decisive counter.",
+                    "dateCreated": "2026-01-19",
+                    "thumbnail": "images/albums/thumbs/ab764364-6356-4f48-9a64-110d1a37353d.gif",
+                    "imagePath": "images/albums/ab764364-6356-4f48-9a64-110d1a37353d.gif"
+                },
+                {
+                    "id": "a5-1",
+                    "title": "Rogue Flurry",
+                    "description": "Short, brutal strikes from the Sith are met by the Jedi's waiting defense and a precise riposte.",
+                    "dateCreated": "2022-10-10",
+                    "thumbnail": "images/albums/thumbs/570f0ccd-f702-4098-8733-7bc1d237bfe1.jpg",
+                    "imagePath": "images/albums/570f0ccd-f702-4098-8733-7bc1d237bfe1.jpg"
+                },
+                {
+                    "id": "a5-2",
+                    "title": "Calm in the Fray",
+                    "description": "Amid chaos, the Jedi finds a still point to redirect the Sith's momentum and turn the duel's rhythm.",
+                    "dateCreated": "2022-10-20",
+                    "thumbnail": "images/albums/thumbs/5ee9e6df-36ff-4407-8881-76520e7fb4be.jpg",
+                    "imagePath": "images/albums/5ee9e6df-36ff-4407-8881-76520e7fb4be.jpg"
+                },
+                {
+                    "id": "a5-3",
+                    "title": "Final Stance",
+                    "description": "Both combatants breathe as the duel narrows to a single decisive exchange that will determine who yields.",
+                    "dateCreated": "2022-10-29",
+                    "thumbnail": "images/albums/thumbs/61f10fb5-e80e-491d-9bcd-ff908b21dc4b.jpg",
+                    "imagePath": "images/albums/61f10fb5-e80e-491d-9bcd-ff908b21dc4b.jpg"
+                }
+            ]
+        }
+    ]
+}

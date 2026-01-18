@@ -27,10 +27,8 @@
                 {
                     Id = a.Id,
                     Title = a.Title,
-                    CoverUrl = a.Thumbnail ?? string.Empty,
-                    Images = a.Images?.Select(i => string.IsNullOrWhiteSpace(i.ImagePath) ? i.Thumbnail : i.ImagePath)
-                                       .Where(p => !string.IsNullOrWhiteSpace(p))
-                                       .ToList() ?? new List<string>()
+                    Thumbnail = a.Thumbnail ?? string.Empty,
+                    Images = a.Images
                 }).ToList();
             }
         }
