@@ -54,7 +54,7 @@ section p {
 .revealable.revealed { opacity:1; transform:none; }
 
 /* artist bio */
-.artist-info {margin-left:2rem;}
+.artist-info {margin:0 2rem;}
 .artist-bio {
     display: grid;
     grid-template-columns: 160px 1fr;
@@ -161,7 +161,7 @@ section p {
 /* When fading out we rely on .fade-out to force the leaving transform (uses !important above) */
 /* responsive */
 @media (max-width:768px) {
-  .artist-bio { grid-template-columns:1fr; text-align:center; }
+  .artist-bio { grid-template-columns:1fr; }
   .artist-photo { margin:0 auto; width:120px; height:120px; }
   /* reduce album thumbnails on narrow screens */
   .gallery-grid { grid-template-columns:repeat(auto-fill, minmax(160px,1fr)); }
