@@ -12,7 +12,13 @@
 </head>
 
 <body>
-    <div id="app"></div>
+    <div id="app">
+        <!-- Default loading spinner -->
+        <div id="loading-spinner" class="spinner-overlay" aria-label="Loading" role="status">
+            <div class="spinner"></div>
+        </div>
+    </div>
+
 
     <div id="blazor-error-ui" hidden>
         An unhandled error has occurred.
@@ -23,6 +29,15 @@
     <script src="./js/site.js"></script>
     <!--<script src="./_framework/blazor.webassembly#[.{fingerprint}].js"></script>-->
     <script src="./_framework/blazor.webassembly.js"></script>
+    <!--<script>
+        // Hide spinner when Blazor is ready
+        window.addEventListener('DOMContentLoaded', function () {
+            Blazor.start().then(function () {
+                var spinner = document.getElementById('loading-spinner');
+                if (spinner) spinner.style.display = 'none';
+            });
+        });
+    </script>-->
 </body>
 
 </html>

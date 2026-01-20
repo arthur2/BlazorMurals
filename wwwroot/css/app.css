@@ -210,3 +210,38 @@ section p {
 #legal-modal .modal-actions .btn {
   min-width: 12rem;
 }
+
+/* Loading spinner overlay */
+.spinner-overlay {
+  position: fixed;
+  z-index: 99998;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg, #fff);
+  transition: background 0.2s;
+}
+
+.spinner {
+  width: 56px;
+  height: 56px;
+  border: 6px solid var(--muted, #6c757d);
+  border-top: 6px solid var(--accent, #1b6ec2);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  background: transparent;
+}
+
+.theme-dark .spinner-overlay {
+  background: var(--bg, #071021);
+}
+
+.theme-dark .spinner {
+  border: 6px solid var(--muted, #adb5bd);
+  border-top: 6px solid var(--accent, #66a8ff);
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
