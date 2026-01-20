@@ -7,31 +7,6 @@
     <title>BlazorMurals</title>
     <base href="/" />
 
-    <!-- Theme boot: prefer localStorage then config -->
-    <script>
-        (function () {
-            function applyTheme(t) {
-                if (!t) return;
-                t = String(t).toLowerCase();
-                document.documentElement.classList.remove('theme-light', 'theme-dark');
-                document.documentElement.classList.add('theme-' + t);
-                document.documentElement.setAttribute('data-theme', t);
-            }
-            try {
-                var stored = localStorage.getItem('theme');
-                if (stored) applyTheme(stored);
-                else {
-                    fetch('./appsettings.json')
-                        .then(r => r.json())
-                        .then(cfg => applyTheme((cfg && cfg.Theme) ? cfg.Theme : 'light'))
-                        .catch(() => applyTheme('light'));
-                }
-            } catch (e) {
-                applyTheme('dark');
-            }
-        })();
-    </script>
-
     <link rel="stylesheet" href="./lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="./css/app.css" />
 </head>
