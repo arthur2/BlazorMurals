@@ -245,3 +245,29 @@ section p {
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+/* Light theme link styles */
+a:link, a:visited {
+    color: var(--accent);
+    text-decoration: underline;
+    transition: color 0.2s;
+}
+
+a:hover, a:focus {
+    color: #174a7c;
+    text-decoration: underline;
+}
+
+/* Dark theme link styles */
+.theme-dark a:link,
+.theme-dark a:visited {
+    color: #82cfff; /* Brighter blue for dark backgrounds */
+    text-decoration: underline;
+    transition: color 0.2s;
+}
+
+.theme-dark a:hover,
+.theme-dark a:focus {
+    color: #ffd166; /* Warm yellow for high contrast on hover */
+    text-decoration: underline;
+}

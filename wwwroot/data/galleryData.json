@@ -1,7 +1,7 @@
 {
     "Artist": {
         "ArtistName": "Artist Name",
-        "ArtistBio": "Short bio describing background, style and influences. Concise, inviting and descriptive.",
+        "ArtistBio": "Short bio describing background, style and influences. Concise, inviting and descriptive. You can embed your website URL and other HTML tags like so: <a href=\"\" target=\"_blank\">My Website</a>.",
         "ArtistPhotoPath": "images/albums/ab764364-6356-4f48-9a64-110d1a37353d.gif",
         "Contact": "For commissions or inquiries, email <strong>artist@example.com</strong>."
     },
