@@ -1,4 +1,4 @@
-﻿// Theme boot: prefer localStorage then config
+﻿// Theme and profile pic style boot: prefer localStorage then config
 (function () {
     function applyTheme(t) {
         if (!t) return;
@@ -7,17 +7,28 @@
         document.documentElement.classList.add('theme-' + t);
         document.documentElement.setAttribute('data-theme', t);
     }
+    function applyProfilePicStyle(rounded) {
+        if (rounded)
+            document.documentElement.classList.add('rounded-profile-pic');
+        else
+            document.documentElement.classList.remove('rounded-profile-pic');
+    }
     try {
         var stored = localStorage.getItem('theme');
         if (stored) applyTheme(stored);
-        else {
-            fetch('./appsettings.json')
-                .then(r => r.json())
-                .then(cfg => applyTheme((cfg && cfg.Theme) ? cfg.Theme : 'light'))
-                .catch(() => applyTheme('light'));
-        }
+        fetch('./appsettings.json')
+            .then(r => r.json())
+            .then(cfg => {
+                applyTheme((cfg && cfg.Theme) ? cfg.Theme : 'light');
+                applyProfilePicStyle(cfg && cfg.RoundedProfilePic);
+            })
+            .catch(() => {
+                applyTheme('light');
+                applyProfilePicStyle(true);
+            });
     } catch (e) {
         applyTheme('dark');
+        applyProfilePicStyle(true);
     }
 })();
 

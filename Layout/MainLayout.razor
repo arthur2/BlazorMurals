@@ -1,9 +1,79 @@
 ﻿@inherits LayoutComponentBase
+@inject HttpClient Http
+@inject IJSRuntime JS
 
-<div class="page-container">
+@if (showLegalModal)
+{
+    <div id="legal-modal">
+        <div class="modal-content">
+            <h2>Mature Content Notice</h2>
+            <p>
+                The material on this website is intended for a mature audience.<br />
+                Are you over the legal age of 18?
+            </p>
+            <div class="modal-actions">
+                <button class="btn btn-primary btn-sm" @onclick="AffirmLegal">Yes, I am 18 or older</button>
+                <button class="btn btn-secondary btn-sm" @onclick="DenyLegal">No, I am not</button>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="@RootClasses" style="@((showLegalModal ? "overflow:hidden;" : null))">
   <main>
     <article>
       @Body
     </article>
   </main>
 </div>
+
+@code {
+    private string theme = "dark";
+    private bool roundedProfilePic = true;
+    private bool requireLegalAffirmation = false;
+    private bool showLegalModal = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var config = await Http.GetFromJsonAsync<AppConfig>("appsettings.json");
+        theme = config?.Theme ?? "light";
+        roundedProfilePic = config?.RoundedProfilePic ?? true;
+        requireLegalAffirmation = config?.RequireLegalAffirmation ?? false;
+
+        // Set body class for theme in JS (if needed)
+        await JS.InvokeVoidAsync("eval", $@"
+            document.body.classList.remove('body-theme-dark', 'body-theme-light');
+            document.body.classList.add('body-theme-{theme}');
+        ");
+
+        // 18+ modal logic
+        if (requireLegalAffirmation)
+        {
+            var affirmed = await JS.InvokeAsync<string>("localStorage.getItem", "userLegalAffirmation");
+            showLegalModal = affirmed != "true";
+        }
+    }
+
+    private async Task AffirmLegal()
+    {
+        await JS.InvokeVoidAsync("localStorage.setItem", "userLegalAffirmation", "true");
+        showLegalModal = false;
+        StateHasChanged();
+    }
+
+    private async Task DenyLegal()
+    {
+        await JS.InvokeVoidAsync("localStorage.removeItem", "userLegalAffirmation");
+        await JS.InvokeVoidAsync("eval", "window.location.href = 'https://www.google.com/'");
+    }
+
+    private string RootClasses =>
+        $"page-container theme-{theme}" + (roundedProfilePic ? " rounded-profile-pic" : "");
+
+    private class AppConfig
+    {
+        public string Theme { get; set; }
+        public bool RoundedProfilePic { get; set; }
+        public bool RequireLegalAffirmation { get; set; }
+    }
+}

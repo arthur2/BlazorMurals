@@ -1,14 +1,4 @@
 :root {
-  --bg: #ffffff;
-  --text: #111827;
-  --accent: #1b6ec2;
-  --muted: #6c757d;
-  --card-bg: #ffffff;
-  --overlay-bg: rgba(0,0,0,0.75);
-}
-
-/* dark */
-.theme-dark {
   --bg: #071021;
   --text: #e6eef7;
   --accent: #66a8ff;
@@ -17,20 +7,46 @@
   --overlay-bg: rgba(0,0,0,0.85);
 }
 
+/* Remove background and color from html and body */
 html, body {
-  height:100%;
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
+  height: 100%;
+  margin: 0;
   font-family: Calibri, 'Helvetica Neue', Arial, sans-serif;
-  -webkit-font-smoothing:antialiased;
+  -webkit-font-smoothing: antialiased;
+  background: #071021;
+  color: #e6eef7;
 }
 
-/* page spacing */
+/* page spacing and theme application */
 .page-container {
-  max-width:1100px;
-  margin:0 auto;
-  padding:78px 16px 48px; /* top offset for any future fixed header */
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 78px 16px 48px;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.page-container.theme-dark {
+  --bg: #071021;
+  --text: #e6eef7;
+  --accent: #66a8ff;
+  --muted: #adb5bd;
+  --card-bg: #0f1720;
+  --overlay-bg: rgba(0,0,0,0.85);
+  background: var(--bg);
+  color: var(--text);
+}
+
+.page-container.theme-light {
+  --bg: #ffffff;
+  --text: #111827;
+  --accent: #1b6ec2;
+  --muted: #6c757d;
+  --card-bg: #ffffff;
+  --overlay-bg: rgba(0,0,0,0.75);
+  background: var(--bg);
+  color: var(--text);
 }
 
 section {
@@ -62,7 +78,18 @@ section p {
     align-items: center;
     margin: 2rem 0;
 }
-.artist-photo { width:160px; height:160px; border-radius:50%; object-fit:cover; display:block; }
+
+.artist-photo {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    display: block;
+}
+
+/* Apply rounded style when enabled via JS/config */
+.rounded-profile-pic .artist-photo {
+    border-radius: 50%;
+}
 
 /* socials */
 .social-links { display:flex; gap:.5rem; margin-top:.5rem; }
@@ -161,12 +188,12 @@ section p {
 /* When fading out we rely on .fade-out to force the leaving transform (uses !important above) */
 /* responsive */
 @media (max-width:768px) {
-  .artist-bio { grid-template-columns:1fr; }
-  .artist-photo { margin:0 auto; width:120px; height:120px; }
-  /* reduce album thumbnails on narrow screens */
-  .gallery-grid { grid-template-columns:repeat(auto-fill, minmax(160px,1fr)); }
-  .album-cover { aspect-ratio:1/1; }
-  .carousel-thumbs img { width:92px; height:62px; }
+    .artist-bio { grid-template-columns:1fr; }
+    .artist-photo { margin:0 auto; width:120px; height:120px; }
+    /* reduce album thumbnails on narrow screens */
+    .gallery-grid { grid-template-columns:repeat(auto-fill, minmax(160px,1fr)); }
+    .album-cover { aspect-ratio:1/1; }
+    .carousel-thumbs img { width:92px; height:62px; }
 }
 
 /* 18+ Legal Modal Styles */
@@ -219,31 +246,48 @@ section p {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--bg, #fff);
+  background: var(--bg, #071021);
   transition: background 0.2s;
 }
 
+/* Modern dual ring spinner */
 .spinner {
-  width: 56px;
-  height: 56px;
-  border: 6px solid var(--muted, #6c757d);
-  border-top: 6px solid var(--accent, #1b6ec2);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
+  width: 64px;
+  height: 64px;
+  display: inline-block;
+  position: relative;
   background: transparent;
 }
 
-.theme-dark .spinner-overlay {
-  background: var(--bg, #071021);
+.spinner::after, .spinner::before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 6px solid transparent;
+  border-top-color: var(--accent, #66a8ff);
+  border-right-color: var(--accent, #66a8ff);
+  animation: spin-modern 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
 }
 
-.theme-dark .spinner {
-  border: 6px solid var(--muted, #adb5bd);
-  border-top: 6px solid var(--accent, #66a8ff);
+.spinner::before {
+  border: 6px solid transparent;
+  border-bottom-color: var(--muted, #adb5bd);
+  border-left-color: var(--muted, #adb5bd);
+  animation-delay: 0.5s;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
+@keyframes spin-modern {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.1);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
 }
 
 /* Light theme link styles */
@@ -270,4 +314,14 @@ a:hover, a:focus {
 .theme-dark a:focus {
     color: #ffd166; /* Warm yellow for high contrast on hover */
     text-decoration: underline;
+}
+
+.body-theme-dark {
+    background-color: #071021 !important;
+    color: #e6eef7 !important;
+}
+
+.body-theme-light {
+    background-color: #ffffff !important;
+    color: #111827 !important;
 }
