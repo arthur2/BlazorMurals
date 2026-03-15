@@ -28,7 +28,7 @@
 
   <!-- Gallery -->
   <section id="gallery" class="revealable">
-    <h3>Featured Albums</h3>
+    <h3>@featuredAlbumHeading</h3>
     <AlbumGallery Albums="Albums" OnAlbumSelected="OpenAlbum" />
   </section>
 
@@ -42,6 +42,7 @@
 <AlbumCarousel Album="SelectedAlbum" Visible="ShowCarousel" OnClose="CloseCarousel" />
 
 @code {
+  private string featuredAlbumHeading = String.Empty;
   private List<Album> Albums = new();
   private Artist? ArtistInfo = new ();
   private Album? SelectedAlbum;
@@ -51,6 +52,9 @@
   {
     try
     {
+      var config = await Http.GetFromJsonAsync<AppConfig>("appsettings.json");
+      featuredAlbumHeading = config?.FeaturedAlbumHeading ?? String.Empty;
+
       var data = await Http.GetFromJsonAsync<GalleryData>(
         "data/galleryData.json",
         new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true }

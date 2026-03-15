@@ -70,10 +70,4 @@
     private string RootClasses =>
         $"page-container theme-{theme}" + (roundedProfilePic ? " rounded-profile-pic" : "");
 
-    private class AppConfig
-    {
-        public string Theme { get; set; }
-        public bool RoundedProfilePic { get; set; }
-        public bool RequireLegalAffirmation { get; set; }
-    }
 }
